@@ -1,16 +1,9 @@
-const lengthExam = (commentLength, maxLength) => {
-  if (commentLength <= maxLength) {
-    return true;
-  }
+const checkStringLength = (stringLength, maxLength) => stringLength <= maxLength;
 
-  return false;
-};
-// Можно ли было прописать в теле функции: return (commentLength <= maxLength) ? true : false; ? Когда пыталась так прописать, программа ругалась...
-
-lengthExam(20, 40);
+checkStringLength(20, 40);
 
 
-const randomNumber = (min, max) => {
+const getRandomNumber = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   if (min >= max) {
@@ -20,4 +13,4 @@ const randomNumber = (min, max) => {
 };
 // Источник, где подсмотрела основу для этой функции: https://developer.mozilla.org/
 
-randomNumber(4, 10);
+getRandomNumber(4, 10);
