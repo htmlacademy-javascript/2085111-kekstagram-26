@@ -60,18 +60,18 @@ const createCommentItem = () => {
 
 // создание и накручивание счетчика id для фотографий
 let idPhotoOrdinal = 0;
-const idPhotoValue = () => idPhotoOrdinal++;
+const incPhotoId = () => idPhotoOrdinal++;
 
 // создание и накручивание счетчика id для комментариев
 let idCommentOrdinal = 0;
-const idCommentValue = () => {
+const incCommentId = () => {
   idCommentOrdinal++;
-  return idPhotoOrdinal* 100 + idCommentOrdinal;
+  return idPhotoOrdinal * 100 + idCommentOrdinal;
 };
 
 // создание комментария
 const createComment = () => ({
-  id: idCommentValue(),
+  id: incCommentId(),
   avatar: `img/avatar-${getRandomArrayElement(AVATARS)}.svg`,
   message: createCommentItem(),
   name: getRandomArrayElement(NAMES),
@@ -79,7 +79,7 @@ const createComment = () => ({
 
 // создание описания фотографии
 const createPhoto = () => {
-  idPhotoValue();
+  incPhotoId();
   idCommentOrdinal = 0;
   return {
     id: idPhotoOrdinal,
