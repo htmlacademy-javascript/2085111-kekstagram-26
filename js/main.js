@@ -5,10 +5,10 @@ import {createThumbnails} from './thumbnails-rendering.js';
 const thumbnailsContainer = document.querySelector('.pictures');
 
 //массив сгенерированных фотографий
-const randomPhotos = generateRandomPhotos();
+const photosOfOtherUsers = generateRandomPhotos();
 
 //создание контейнера с миниатюрами на основе сгенерированных данных
-const fullThumbnailsFragment = createThumbnails(randomPhotos);
+const fullThumbnailsFragment = createThumbnails(photosOfOtherUsers);
 
 //добавляем контейнер на страницу
 thumbnailsContainer.append(fullThumbnailsFragment);

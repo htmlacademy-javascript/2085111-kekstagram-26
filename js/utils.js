@@ -9,8 +9,6 @@ const getRandomPositiveInteger = (a, b) => {
 // функция получения рандомного значения из массива
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-export {getRandomPositiveInteger, getRandomArrayElement};
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-// проверка длины комментария из д/з 2 блока
-const checkStringLength = (stringLength, maxLength) => stringLength <= maxLength;
-checkStringLength(20, 40);
+export {getRandomPositiveInteger, getRandomArrayElement, isEscapeKey};
