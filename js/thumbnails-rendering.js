@@ -3,28 +3,21 @@ import {openBigPhoto} from './big-picture-rendering.js';
 //шаблон template в разметке
 const templatePicture = document.querySelector('#picture').content;
 
-// функция, которая навешивает EventListener на каждую миниатюру
-// не могу понять, нужен ли в этой функции preventDefault - ???
-const onThumbnailClick = (thumbnail, randomPhoto) => {
-  thumbnail.querySelector('.picture__img').addEventListener('click', (evt) => {
-    evt.preventDefault();
-    openBigPhoto(randomPhoto);
-  });
-};
-
-const createThumbnails = (randomPhotos) => {
+const createThumbnails = (usersPhotos) => {
   //фрагмент, в котором будут собраны миниатюры перед добавлением на страницу
   const thumbnailsFragment = document.createDocumentFragment();
 
   //создаём копии шаблона, грузим в них данные, добавляем в контейнер
-  randomPhotos.forEach((randomPhoto) => {
+  usersPhotos.forEach((photoOfOtherUser) => {
     const photoElement = templatePicture.cloneNode(true);
 
-    photoElement.querySelector('.picture__img').src = randomPhoto.url;
-    photoElement.querySelector('.picture__comments').textContent = randomPhoto.description;
-    photoElement.querySelector('.picture__likes').textContent = randomPhoto.likes;
+    photoElement.querySelector('.picture__img').src = photoOfOtherUser.url;
+    photoElement.querySelector('.picture__comments').textContent = photoOfOtherUser.description;
+    photoElement.querySelector('.picture__likes').textContent = photoOfOtherUser.likes;
 
-    onThumbnailClick(photoElement, randomPhoto);
+    photoElement.querySelector('.picture__img').addEventListener('click', () => {
+      openBigPhoto(photoOfOtherUser);
+    });
 
     thumbnailsFragment.append(photoElement);
   });
