@@ -1,5 +1,6 @@
 import {generateRandomPhotos} from './generate-data.js';
 import {createThumbnails} from './thumbnails-rendering.js';
+import './form-of-loading-new-foto.js';
 
 //секция, куда попадут миниатюры
 const thumbnailsContainer = document.querySelector('.pictures');
