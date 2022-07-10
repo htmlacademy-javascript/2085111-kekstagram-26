@@ -7,7 +7,6 @@ const loadingButton = bigPicture.querySelector('.social__comments-loader');
 const COMMENTS_LIMIT_PER_VIEW = 5;
 let amountOfComments = 0;
 let amountOfNotHiddenComments = COMMENTS_LIMIT_PER_VIEW;
-let commentsArray = [];
 let currentComments;
 
 //очищаем список комментариев от тех, что по умолчанию залиты в html'е
@@ -15,34 +14,33 @@ listOfComments.innerHTML = '';
 
 //функция отрисовки строчки со счётчиком отображаемых комментариев
 const generateCurrentComments = (notHiddenComments, allComments) => {
-  if (notHiddenComments < allComments) {
-    currentComments = notHiddenComments;} else {
-    currentComments = allComments;}
+  currentComments = notHiddenComments < allComments ? notHiddenComments : allComments;
   bigPicture.querySelector('.social__comment-count').textContent = `${currentComments} из ${allComments} комментариев`;
 };
 
 // функция создает сразу все комментарии, но прячет лишние
-const generateComments = (photo, i) => {
-  const commentItem = document.createElement('li');
-  commentItem.classList.add('social__comment');
-  // все комментарии после 5 скрываются через класс hidden
-  if (i >= COMMENTS_LIMIT_PER_VIEW) {
-    commentItem.classList.add('hidden');
+const generateComments = (photo) => {
+  for (let i = 0; i < photo.comments.length; i++) {
+    const commentItem = document.createElement('li');
+    commentItem.classList.add('social__comment');
+    // все комментарии после 5 скрываются через класс hidden
+    if (i >= COMMENTS_LIMIT_PER_VIEW) {
+      commentItem.classList.add('hidden');
+    }
+
+    const commentAvatar = document.createElement('img');
+    commentAvatar.classList.add('social__picture');
+    commentAvatar.src = photo.comments[i].avatar;
+    commentAvatar.alt = photo.comments[i].name;
+    commentItem.append(commentAvatar);
+
+    const commentText = document.createElement('p');
+    commentText.classList.add('social__text');
+    commentText.textContent = photo.comments[i].message;
+    commentItem.append(commentText);
+
+    listOfComments.append(commentItem);
   }
-
-  const commentAvatar = document.createElement('img');
-  commentAvatar.classList.add('social__picture');
-  commentAvatar.src = photo.comments[i].avatar;
-  commentAvatar.alt = photo.comments[i].name;
-  commentItem.append(commentAvatar);
-
-  const commentText = document.createElement('p');
-  commentText.classList.add('social__text');
-  commentText.textContent = photo.comments[i].message;
-  commentItem.append(commentText);
-
-  listOfComments.append(commentItem);
-  commentsArray.push(commentItem);
 };
 
 const renderBigPhoto = (smallPhoto) => {
@@ -50,9 +48,7 @@ const renderBigPhoto = (smallPhoto) => {
   bigPicture.querySelector('.likes-count').textContent = smallPhoto.likes;
   bigPicture.querySelector('.social__caption').textContent = smallPhoto.description;
 
-  for (let i = 0; i < smallPhoto.comments.length; i++) {
-    generateComments(smallPhoto, i);
-  }
+  generateComments(smallPhoto);
 
   amountOfComments = smallPhoto.comments.length;
   amountOfNotHiddenComments = COMMENTS_LIMIT_PER_VIEW;
@@ -66,7 +62,7 @@ const verifyIfLoadingButtonNeeds = () => {
 
 const onLoadingButtonClick = () => {
   for (let i = amountOfNotHiddenComments; i < amountOfComments && i < amountOfNotHiddenComments + COMMENTS_LIMIT_PER_VIEW; i++) {
-    commentsArray[i].classList.remove('hidden');
+    listOfComments.children[i].classList.remove('hidden');
   }
   amountOfNotHiddenComments += COMMENTS_LIMIT_PER_VIEW;
   verifyIfLoadingButtonNeeds();
@@ -100,7 +96,6 @@ function closeBigPhoto() {
   listOfComments.innerHTML = '';
   document.removeEventListener('keydown', onBigPhotoEscKeydown);
   exitButton.removeEventListener('click', closeBigPhoto);
-  commentsArray = [];
   loadingButton.removeEventListener('click', onLoadingButtonClick);
   loadingButton.classList.remove('hidden');
 }
