@@ -1,4 +1,5 @@
 import {isEscapeKey} from './utils.js';
+import './transform-new-foto.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFileInput = document.querySelector('#upload-file');
@@ -26,6 +27,10 @@ uploadFileInput.addEventListener('change', () => {
   document.querySelector('body').classList.add('modal-open');
   exitFormButton.addEventListener('click', closeImageEditingForm);
   document.addEventListener('keydown', onImageFormEscKeydown);
+  //присваиваем значения по умолчанию для масштаба картинки + инпута масштаба + блокируем кнопку его увеличения, т.к. значение уже 100%
+  document.querySelector('.scale__control--value').value = '100%';
+  document.querySelector('.scale__control--bigger').disabled = true;
+  document.querySelector('.effect-level__value').value = 100;
 });
 
 function closeImageEditingForm () {
@@ -34,6 +39,10 @@ function closeImageEditingForm () {
   exitFormButton.removeEventListener('click', closeImageEditingForm);
   document.removeEventListener('keydown', onImageFormEscKeydown);
   uploadFileInput.value = '';
+  document.querySelector('.img-upload__preview > img').removeAttribute('style');
+  document.querySelector('.img-upload__preview > img').removeAttribute('class');
+  document.querySelector('.effect-level__slider').noUiSlider.set(100);
+  document.querySelector('.effect-level__slider').setAttribute('disabled', true);
 }
 
 //ниже валидация комментария и хэштегов
