@@ -2,6 +2,8 @@ import {openBigPhoto} from './big-picture-rendering.js';
 
 //шаблон template в разметке
 const templatePicture = document.querySelector('#picture').content;
+//секция, куда попадут миниатюры
+const thumbnailsContainer = document.querySelector('.pictures');
 
 const createThumbnails = (usersPhotos) => {
   //фрагмент, в котором будут собраны миниатюры перед добавлением на страницу
@@ -21,7 +23,8 @@ const createThumbnails = (usersPhotos) => {
 
     thumbnailsFragment.append(photoElement);
   });
-  return thumbnailsFragment;
+  //добавляем контейнер на страницу
+  thumbnailsContainer.append(thumbnailsFragment);
 };
 
 export {createThumbnails};

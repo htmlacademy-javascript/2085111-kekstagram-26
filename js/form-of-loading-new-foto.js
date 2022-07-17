@@ -1,5 +1,7 @@
 import {isEscapeKey} from './utils.js';
 import './transform-new-foto.js';
+import {sendData} from './api.js';
+import {renderSuccessReport, renderErrorReport} from './reports.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFileInput = document.querySelector('#upload-file');
@@ -8,6 +10,8 @@ const exitFormButton = document.querySelector('#upload-cancel');
 const hashtagsInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
 const hashtagRule = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const MAX_COMMENT_LENGTH = 140;
+const MAX_AMOUNT_OF_HASHTAGS = 5;
 
 // функция закрытия окна по Esc + запрет на закрытие, если в фокусе хэштеги или комментарии
 const onImageFormEscKeydown = (evt) => {
@@ -43,6 +47,8 @@ function closeImageEditingForm () {
   document.querySelector('.img-upload__preview > img').removeAttribute('class');
   document.querySelector('.effect-level__slider').noUiSlider.set(100);
   document.querySelector('.effect-level__slider').setAttribute('disabled', true);
+  hashtagsInput.value = '';
+  commentInput.value = '';
 }
 
 //ниже валидация комментария и хэштегов
@@ -52,14 +58,20 @@ const pristine = new Pristine (uploadForm, {
   errorTextParent: 'img-upload__field-wrapper'}, false);
 
 
-const validateComment = () => commentInput.value.length <= 140;
+const validateComment = () => commentInput.value.length <= MAX_COMMENT_LENGTH;
 
 const validateHashtagsAmount = () => {
   const hashtagsArray = hashtagsInput.value.split(' ');
-  return hashtagsArray.length <= 5;
+  return hashtagsArray.length <= MAX_AMOUNT_OF_HASHTAGS;
 };
 // проверка содержания хештега (превращаем в массив, перебираем массив с помощью some, возвращаем true или false)
-const validateHashtagsContent = () => hashtagsInput.value.split(' ').every((hashtag) => hashtagRule.test(hashtag));
+const validateHashtagsContent = () => {
+  if (hashtagsInput.value) {
+    return hashtagsInput.value.split(' ').every((hashtag) => hashtagRule.test(hashtag));
+  } else {
+    return true;
+  }
+};
 
 // проверка хэштегов на уникальность (при этом для начала приводим всё к нижнему регистру)
 const validateHashtagsDublicates = () => {
@@ -79,6 +91,19 @@ pristine.addValidator(hashtagsInput, validateHashtagsDublicates, 'Все хэш�
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
-    uploadForm.submit();
+    sendData(
+      () => {
+        closeImageEditingForm();
+        renderSuccessReport();
+      },
+      () => {
+        renderErrorReport();
+        imageEditingForm.classList.add('hidden');
+        document.removeEventListener('keydown', onImageFormEscKeydown);
+      },
+      new FormData(evt.target),
+    );
   }
 });
+
+export {onImageFormEscKeydown};
