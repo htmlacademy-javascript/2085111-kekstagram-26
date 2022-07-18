@@ -87,6 +87,11 @@ pristine.addValidator(hashtagsInput, validateHashtagsAmount, 'Нельзя ук�
 pristine.addValidator(hashtagsInput, validateHashtagsContent, 'Хэштег должен начинаться с # и содержать только цифры и буквы');
 pristine.addValidator(hashtagsInput, validateHashtagsDublicates, 'Все хэштеги должны быть уникальны!');
 
+const hideImageForm = () => {
+  imageEditingForm.classList.add('hidden');
+  document.removeEventListener('keydown', onImageFormEscKeydown);
+};
+
 //все проверки инпутов осуществляются после нажатия кнопки
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -98,8 +103,7 @@ uploadForm.addEventListener('submit', (evt) => {
       },
       () => {
         renderErrorReport();
-        imageEditingForm.classList.add('hidden');
-        document.removeEventListener('keydown', onImageFormEscKeydown);
+        hideImageForm();
       },
       new FormData(evt.target),
     );

@@ -64,12 +64,16 @@ const renderErrorReport = () => {
 
 };
 
+const showImageForm = () => {
+  document.querySelector('.img-upload__overlay').classList.remove('hidden');
+  document.addEventListener('keydown', onImageFormEscKeydown);
+};
+
 function removeErrorReport () {
   document.querySelector('section.error').remove();
   document.removeEventListener('keydown', onErrorReportEscKeydown);
   document.removeEventListener('click', onErrorReportClick);
-  document.querySelector('.img-upload__overlay').classList.remove('hidden');
-  document.addEventListener('keydown', onImageFormEscKeydown);
+  showImageForm();
 }
 
 export {renderSuccessReport, renderErrorReport};
