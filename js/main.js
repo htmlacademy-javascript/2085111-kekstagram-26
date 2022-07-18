@@ -1,15 +1,9 @@
-import {generateRandomPhotos} from './generate-data.js';
 import {createThumbnails} from './thumbnails-rendering.js';
 import './form-of-loading-new-foto.js';
+import {getData} from './api.js';
+import {AMOUNT_OF_PHOTOS} from './constants.js';
+import {showAlert} from './utils.js';
 
-//секция, куда попадут миниатюры
-const thumbnailsContainer = document.querySelector('.pictures');
-
-//массив сгенерированных фотографий
-const photosOfOtherUsers = generateRandomPhotos();
-
-//создание контейнера с миниатюрами на основе сгенерированных данных
-const fullThumbnailsFragment = createThumbnails(photosOfOtherUsers);
-
-//добавляем контейнер на страницу
-thumbnailsContainer.append(fullThumbnailsFragment);
+getData((photos) => {
+  createThumbnails(photos.slice(0, AMOUNT_OF_PHOTOS));
+}, showAlert);
