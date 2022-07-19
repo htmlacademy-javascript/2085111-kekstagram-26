@@ -23,7 +23,10 @@ const createThumbnails = (usersPhotos) => {
 
     thumbnailsFragment.append(photoElement);
   });
-  //добавляем контейнер на страницу
+  const pics = thumbnailsContainer.querySelectorAll('.picture');
+  for (const pic of pics) {
+    pic.remove();
+  }
   thumbnailsContainer.append(thumbnailsFragment);
 };
 
