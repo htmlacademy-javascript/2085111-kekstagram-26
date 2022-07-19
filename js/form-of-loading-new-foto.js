@@ -1,4 +1,4 @@
-import {isEscapeKey} from './utils.js';
+import {isEscapeKey, showAlert} from './utils.js';
 import './transform-new-foto.js';
 import {sendData} from './api.js';
 import {renderSuccessReport, renderErrorReport} from './reports.js';
@@ -9,7 +9,9 @@ const imageEditingForm = document.querySelector('.img-upload__overlay');
 const exitFormButton = document.querySelector('#upload-cancel');
 const hashtagsInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
+const previewPhoto = document.querySelector('.img-upload__preview > img');
 const hashtagRule = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const MAX_COMMENT_LENGTH = 140;
 const MAX_AMOUNT_OF_HASHTAGS = 5;
 
@@ -25,8 +27,8 @@ const onImageFormEscKeydown = (evt) => {
   }
 };
 
-//открытие модального окна при выборе картинки
-uploadFileInput.addEventListener('change', () => {
+const openPhotoEditForm = (file) => {
+  previewPhoto.src = URL.createObjectURL(file);
   imageEditingForm.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   exitFormButton.addEventListener('click', closeImageEditingForm);
@@ -35,6 +37,18 @@ uploadFileInput.addEventListener('change', () => {
   document.querySelector('.scale__control--value').value = '100%';
   document.querySelector('.scale__control--bigger').disabled = true;
   document.querySelector('.effect-level__value').value = 100;
+};
+
+//открытие модального окна при выборе картинки
+uploadFileInput.addEventListener('change', () => {
+  const file = uploadFileInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    openPhotoEditForm(file);
+  } else {
+    showAlert('Выберите файл с расширением gif, jpeg или png.');
+  }
 });
 
 function closeImageEditingForm () {
