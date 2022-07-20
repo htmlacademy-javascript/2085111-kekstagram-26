@@ -14,7 +14,7 @@ const createThumbnails = (usersPhotos) => {
     const photoElement = templatePicture.cloneNode(true);
 
     photoElement.querySelector('.picture__img').src = photoOfOtherUser.url;
-    photoElement.querySelector('.picture__comments').textContent = photoOfOtherUser.description;
+    photoElement.querySelector('.picture__comments').textContent = photoOfOtherUser.comments.length;
     photoElement.querySelector('.picture__likes').textContent = photoOfOtherUser.likes;
 
     photoElement.querySelector('.picture__img').addEventListener('click', () => {
