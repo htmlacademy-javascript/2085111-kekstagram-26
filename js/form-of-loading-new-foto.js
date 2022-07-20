@@ -1,7 +1,8 @@
-import {isEscapeKey, showAlert} from './utils.js';
 import './transform-new-foto.js';
+import {isEscapeKey, showAlert} from './utils.js';
 import {sendData} from './api.js';
 import {renderSuccessReport, renderErrorReport} from './reports.js';
+import {DEFAULT_SCALE_VALUE} from './constants.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFileInput = document.querySelector('#upload-file');
@@ -14,6 +15,7 @@ const hashtagRule = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const MAX_COMMENT_LENGTH = 140;
 const MAX_AMOUNT_OF_HASHTAGS = 5;
+
 
 // функция закрытия окна по Esc + запрет на закрытие, если в фокусе хэштеги или комментарии
 const onImageFormEscKeydown = (evt) => {
@@ -34,9 +36,9 @@ const openPhotoEditForm = (file) => {
   exitFormButton.addEventListener('click', closeImageEditingForm);
   document.addEventListener('keydown', onImageFormEscKeydown);
   //присваиваем значения по умолчанию для масштаба картинки + инпута масштаба + блокируем кнопку его увеличения, т.к. значение уже 100%
-  document.querySelector('.scale__control--value').value = '100%';
+  document.querySelector('.scale__control--value').value = `${DEFAULT_SCALE_VALUE}%`;
   document.querySelector('.scale__control--bigger').disabled = true;
-  document.querySelector('.effect-level__value').value = 100;
+  document.querySelector('.effect-level__value').value = DEFAULT_SCALE_VALUE;
 };
 
 //открытие модального окна при выборе картинки
@@ -47,7 +49,7 @@ uploadFileInput.addEventListener('change', () => {
   if (matches) {
     openPhotoEditForm(file);
   } else {
-    showAlert('Выберите файл с расширением gif, jpeg или png.');
+    showAlert(`Выберите файл с расширением ${FILE_TYPES.join(', ')}`);
   }
 });
 
@@ -59,8 +61,9 @@ function closeImageEditingForm () {
   uploadFileInput.value = '';
   document.querySelector('.img-upload__preview > img').removeAttribute('style');
   document.querySelector('.img-upload__preview > img').removeAttribute('class');
-  document.querySelector('.effect-level__slider').noUiSlider.set(100);
+  document.querySelector('.effect-level__slider').noUiSlider.set(DEFAULT_SCALE_VALUE);
   document.querySelector('.effect-level__slider').setAttribute('disabled', true);
+  document.querySelector('.scale__control--smaller').removeAttribute('disabled');
   hashtagsInput.value = '';
   commentInput.value = '';
 }
@@ -96,8 +99,8 @@ const validateHashtagsDublicates = () => {
 };
 
 // добавляем новые правила в пристин
-pristine.addValidator(commentInput, validateComment, 'Длина комментария должна быть меньше 140 символов.');
-pristine.addValidator(hashtagsInput, validateHashtagsAmount, 'Нельзя указывать более 5 хэштегов');
+pristine.addValidator(commentInput, validateComment, `Длина комментария должна быть меньше ${MAX_COMMENT_LENGTH} символов`);
+pristine.addValidator(hashtagsInput, validateHashtagsAmount, `Нельзя указывать более ${MAX_AMOUNT_OF_HASHTAGS} хэштегов`);
 pristine.addValidator(hashtagsInput, validateHashtagsContent, 'Хэштег должен начинаться с # и содержать только цифры и буквы');
 pristine.addValidator(hashtagsInput, validateHashtagsDublicates, 'Все хэштеги должны быть уникальны!');
 

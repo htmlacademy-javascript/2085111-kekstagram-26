@@ -1,4 +1,4 @@
-import {STEP_OF_SCALING, MIN_SCALE, MAX_SCALE, sliderOptions} from './constants.js';
+import {DEFAULT_SCALE_VALUE, sliderOptions} from './constants.js';
 
 const buttonToMakeSmall = document.querySelector('.scale__control--smaller');
 const buttonToMakeBig = document.querySelector('.scale__control--bigger');
@@ -7,10 +7,14 @@ const tranformingImage = document.querySelector('.img-upload__preview > img');
 const listOfEffectsInputs = document.querySelector('.effects__list');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
+
 const DECREASE = 'decrease';
 const INCREASE = 'increase';
+const STEP_OF_SCALING = 25;
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
 
-noUiSlider.create(sliderElement, {
+const defaultSliderOptions = {
   range: {
     min: 0,
     max: 100,
@@ -18,7 +22,9 @@ noUiSlider.create(sliderElement, {
   start: 100,
   step: 1,
   connect: 'lower',
-});
+};
+
+noUiSlider.create(sliderElement, defaultSliderOptions);
 sliderElement.setAttribute('disabled', true);
 
 const changeEffect = (evt) => {
@@ -30,7 +36,7 @@ const changeEffect = (evt) => {
     if (nameOfCurrentEffect === 'none') {
       tranformingImage.style.filter = 'unset';
       sliderElement.setAttribute('disabled', true);
-      effectLevelValue.value = 100;
+      effectLevelValue.value = DEFAULT_SCALE_VALUE;
     } else {
       sliderElement.removeAttribute('disabled');
       sliderElement.noUiSlider.updateOptions(sliderOptions[nameOfCurrentEffect]);

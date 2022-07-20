@@ -23,10 +23,13 @@ const createThumbnails = (usersPhotos) => {
 
     thumbnailsFragment.append(photoElement);
   });
+
+  //очищаем страницу от старых миниатюр
   const pics = thumbnailsContainer.querySelectorAll('.picture');
   for (const pic of pics) {
     pic.remove();
   }
+  //добавляем новые миниатюры
   thumbnailsContainer.append(thumbnailsFragment);
 };
 

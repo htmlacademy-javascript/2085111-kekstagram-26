@@ -1,9 +1,7 @@
 const AMOUNT_OF_PHOTOS = 25;
 const ALERT_SHOW_TIME = 5000;
+const DEFAULT_SCALE_VALUE = 100;
 
-const STEP_OF_SCALING = 25;
-const MIN_SCALE = 25;
-const MAX_SCALE = 100;
 const sliderOptions = {
   chrome: {
     range: {
@@ -47,4 +45,4 @@ const sliderOptions = {
   },
 };
 
-export {AMOUNT_OF_PHOTOS, STEP_OF_SCALING, MIN_SCALE, MAX_SCALE, sliderOptions, ALERT_SHOW_TIME};
+export {AMOUNT_OF_PHOTOS, sliderOptions, ALERT_SHOW_TIME, DEFAULT_SCALE_VALUE};
