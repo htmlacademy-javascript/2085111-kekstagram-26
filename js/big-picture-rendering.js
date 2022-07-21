@@ -80,7 +80,7 @@ const onBigPhotoEscKeydown = (evt) => {
   }
 };
 
-function openBigPhoto(thumbnail) {
+const openBigPhoto = (thumbnail) => {
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
 
@@ -90,7 +90,7 @@ function openBigPhoto(thumbnail) {
   document.addEventListener('keydown', onBigPhotoEscKeydown);
 
   loadingButton.addEventListener('click', onLoadingButtonClick);
-}
+};
 
 function closeBigPhoto() {
   bigPicture.classList.add('hidden');

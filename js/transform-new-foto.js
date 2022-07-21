@@ -23,9 +23,10 @@ const tranformingImage = document.querySelector('.img-upload__preview > img');
 const listOfEffectsInputs = document.querySelector('.effects__list');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
+const sliderBlock = document.querySelector('.img-upload__effect-level');
 
 noUiSlider.create(sliderElement, defaultSliderOptions);
-sliderElement.setAttribute('disabled', true);
+sliderBlock.classList.add('hidden');
 
 const changeEffect = (evt) => {
   if (evt.target.matches('input[type="radio"]')) {
@@ -35,10 +36,10 @@ const changeEffect = (evt) => {
 
     if (nameOfCurrentEffect === 'none') {
       tranformingImage.style.filter = 'unset';
-      sliderElement.setAttribute('disabled', true);
+      sliderBlock.classList.add('hidden');
       effectLevelValue.value = DEFAULT_SCALE_VALUE;
     } else {
-      sliderElement.removeAttribute('disabled');
+      sliderBlock.classList.remove('hidden');
       sliderElement.noUiSlider.updateOptions(sliderOptions[nameOfCurrentEffect]);
     }
   }

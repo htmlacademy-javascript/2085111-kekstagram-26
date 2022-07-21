@@ -63,7 +63,8 @@ function closeImageEditingForm () {
   document.querySelector('.img-upload__preview > img').removeAttribute('style');
   document.querySelector('.img-upload__preview > img').removeAttribute('class');
   document.querySelector('.effect-level__slider').noUiSlider.set(DEFAULT_SCALE_VALUE);
-  document.querySelector('.effect-level__slider').setAttribute('disabled', true);
+  document.querySelector('.img-upload__effect-level').classList.add('hidden');
+  // document.querySelector('.effect-level__slider').setAttribute('disabled', true);
   document.querySelector('.scale__control--smaller').removeAttribute('disabled');
   hashtagsInput.value = '';
   commentInput.value = '';
