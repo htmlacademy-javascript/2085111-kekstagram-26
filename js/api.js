@@ -3,9 +3,8 @@ const getData = (onSuccess, onFail) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else {
-        throw new Error('Не удалось установить связь с сервером.');
       }
+      throw new Error('Не удалось установить связь с сервером.');
     })
     .then((photos) => onSuccess(photos))
     .catch((err) => {
@@ -22,10 +21,9 @@ const sendData = (onSuccess, onFail, body) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccess();
-      } else {
-        throw new Error('Не удалось отправить форму. Попробуйте ещё раз');
+        return onSuccess();
       }
+      throw new Error('Не удалось отправить форму. Попробуйте ещё раз');
     })
     .catch((err) => {
       onFail(err.message);

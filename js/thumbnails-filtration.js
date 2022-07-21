@@ -2,24 +2,24 @@ import {AMOUNT_OF_PHOTOS} from './constants.js';
 import {createThumbnails} from './thumbnails-rendering.js';
 import {shuffle, debounce} from './utils.js';
 
-const defaultFilter = document.querySelector('#filter-default');
-const randomFilter = document.querySelector('#filter-random');
-const discussedFilter = document.querySelector('#filter-discussed');
-const filterBlock = document.querySelector('.img-filters');
-const filters = document.querySelectorAll('.img-filters__button');
-
 const AMOUNT_OF_RANDOM_PHOTOS = 10;
 const TIME_OF_DEBOUNCE = 500;
 
+const defaultFilterElement = document.querySelector('#filter-default');
+const randomFilterElement = document.querySelector('#filter-random');
+const discussedFilterElement = document.querySelector('#filter-discussed');
+const filterBlockElement = document.querySelector('.img-filters');
+const filtersElements = document.querySelectorAll('.img-filters__button');
+
 const changeActiveFilter = (filter) => {
-  for (const eachFilter of filters) {
+  for (const eachFilter of filtersElements) {
     eachFilter.classList.remove('img-filters__button--active');
   }
   filter.classList.add('img-filters__button--active');
 };
 
 const onDiscussionFilterClick = (photos, createThumbnailsWithDebounce) => {
-  discussedFilter.addEventListener('click', (evt) => {
+  discussedFilterElement.addEventListener('click', (evt) => {
     changeActiveFilter(evt.target);
 
     const filteredArrayOfPhotos = photos.slice();
@@ -29,7 +29,7 @@ const onDiscussionFilterClick = (photos, createThumbnailsWithDebounce) => {
 };
 
 const onRandomFilterClick = (photos, createThumbnailsWithDebounce) => {
-  randomFilter.addEventListener('click', (evt) => {
+  randomFilterElement.addEventListener('click', (evt) => {
     changeActiveFilter(evt.target);
 
     const shuffledArrayOfPhotos = photos.slice();
@@ -39,7 +39,7 @@ const onRandomFilterClick = (photos, createThumbnailsWithDebounce) => {
 };
 
 const onDefaultFilterClick = (photos, createThumbnailsWithDebounce) => {
-  defaultFilter.addEventListener('click', (evt) => {
+  defaultFilterElement.addEventListener('click', (evt) => {
     changeActiveFilter(evt.target);
 
     createThumbnailsWithDebounce(photos.slice(0, AMOUNT_OF_PHOTOS));
@@ -47,7 +47,7 @@ const onDefaultFilterClick = (photos, createThumbnailsWithDebounce) => {
 };
 
 const addFilters = (photos) => {
-  filterBlock.classList.remove('img-filters--inactive');
+  filterBlockElement.classList.remove('img-filters--inactive');
   onDiscussionFilterClick(photos, debounce(createThumbnails, TIME_OF_DEBOUNCE));
   onRandomFilterClick(photos, debounce(createThumbnails, TIME_OF_DEBOUNCE));
   onDefaultFilterClick(photos, debounce(createThumbnails, TIME_OF_DEBOUNCE));
