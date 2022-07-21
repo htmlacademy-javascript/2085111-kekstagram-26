@@ -1,8 +1,8 @@
 import {isEscapeKey} from './utils.js';
 import {onImageFormEscKeydown} from './form-of-loading-new-foto.js';
 
-const templateSuccessReport = document.querySelector('#success').content;
-const templateErrorReport = document.querySelector('#error').content;
+const templateSuccessReportElement = document.querySelector('#success').content;
+const templateErrorReportElement = document.querySelector('#error').content;
 
 // появление, особенности поведения и закрытие сообщения об успешной подгрузке
 
@@ -20,14 +20,14 @@ const onSuccessReportClick = (evt) => {
 };
 
 const renderSuccessReport = () => {
-  const successReport = templateSuccessReport.cloneNode(true);
+  const successReport = templateSuccessReportElement.cloneNode(true);
   document.body.append(successReport);
 
   document.addEventListener('keydown', onSuccessReportEscKeydown);
   document.addEventListener('click', onSuccessReportClick);
 
-  const submitButton = document.querySelector('.success__button');
-  submitButton.addEventListener('click', removeSuccessReport);
+  const submitButtonElement = document.querySelector('.success__button');
+  submitButtonElement.addEventListener('click', removeSuccessReport);
 
 };
 
@@ -53,14 +53,14 @@ const onErrorReportClick = (evt) => {
 };
 
 const renderErrorReport = () => {
-  const errorReport = templateErrorReport.cloneNode(true);
+  const errorReport = templateErrorReportElement.cloneNode(true);
   document.body.append(errorReport);
 
   document.addEventListener('keydown', onErrorReportEscKeydown);
   document.addEventListener('click', onErrorReportClick);
 
-  const errorButton = document.querySelector('.error__button');
-  errorButton.addEventListener('click', removeErrorReport);
+  const errorButtonElement = document.querySelector('.error__button');
+  errorButtonElement.addEventListener('click', removeErrorReport);
 
 };
 

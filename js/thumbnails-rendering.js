@@ -3,7 +3,7 @@ import {openBigPhoto} from './big-picture-rendering.js';
 //шаблон template в разметке
 const templatePicture = document.querySelector('#picture').content;
 //секция, куда попадут миниатюры
-const thumbnailsContainer = document.querySelector('.pictures');
+const thumbnailsContainerElement = document.querySelector('.pictures');
 
 const createThumbnails = (usersPhotos) => {
   //фрагмент, в котором будут собраны миниатюры перед добавлением на страницу
@@ -25,12 +25,12 @@ const createThumbnails = (usersPhotos) => {
   });
 
   //очищаем страницу от старых миниатюр
-  const pics = thumbnailsContainer.querySelectorAll('.picture');
+  const pics = thumbnailsContainerElement.querySelectorAll('.picture');
   for (const pic of pics) {
     pic.remove();
   }
   //добавляем новые миниатюры
-  thumbnailsContainer.append(thumbnailsFragment);
+  thumbnailsContainerElement.append(thumbnailsFragment);
 };
 
 export {createThumbnails};
