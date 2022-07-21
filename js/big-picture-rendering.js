@@ -1,10 +1,13 @@
 import {isEscapeKey} from './utils.js';
 
+const COMMENTS_LIMIT_PER_VIEW = 5;
+
 const bigPicture = document.querySelector('.big-picture');
 const exitButton = bigPicture.querySelector('.big-picture__cancel');
 const listOfComments = bigPicture.querySelector('.social__comments');
 const loadingButton = bigPicture.querySelector('.social__comments-loader');
-const COMMENTS_LIMIT_PER_VIEW = 5;
+const body = document.querySelector('body');
+
 let amountOfComments = 0;
 let amountOfNotHiddenComments = COMMENTS_LIMIT_PER_VIEW;
 let currentComments;
@@ -79,7 +82,7 @@ const onBigPhotoEscKeydown = (evt) => {
 
 function openBigPhoto(thumbnail) {
   bigPicture.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
+  body.classList.add('modal-open');
 
   renderBigPhoto(thumbnail);
   verifyIfLoadingButtonNeeds();
@@ -91,7 +94,7 @@ function openBigPhoto(thumbnail) {
 
 function closeBigPhoto() {
   bigPicture.classList.add('hidden');
-  document.querySelector('body').classList.remove('modal-open');
+  body.classList.remove('modal-open');
 
   listOfComments.innerHTML = '';
   document.removeEventListener('keydown', onBigPhotoEscKeydown);

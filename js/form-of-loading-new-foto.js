@@ -4,6 +4,12 @@ import {sendData} from './api.js';
 import {renderSuccessReport, renderErrorReport} from './reports.js';
 import {DEFAULT_SCALE_VALUE} from './constants.js';
 
+const MAX_COMMENT_LENGTH = 140;
+const MAX_AMOUNT_OF_HASHTAGS = 5;
+const MAX_HASHTAG_LENGTH = 20;
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const hashtagRule = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFileInput = document.querySelector('#upload-file');
 const imageEditingForm = document.querySelector('.img-upload__overlay');
@@ -11,11 +17,6 @@ const exitFormButton = document.querySelector('#upload-cancel');
 const hashtagsInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
 const previewPhoto = document.querySelector('.img-upload__preview > img');
-const hashtagRule = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-const MAX_COMMENT_LENGTH = 140;
-const MAX_AMOUNT_OF_HASHTAGS = 5;
-
 
 // функция закрытия окна по Esc + запрет на закрытие, если в фокусе хэштеги или комментарии
 const onImageFormEscKeydown = (evt) => {
@@ -82,13 +83,10 @@ const validateHashtagsAmount = () => {
   return hashtagsArray.length <= MAX_AMOUNT_OF_HASHTAGS;
 };
 // проверка содержания хештега (превращаем в массив, перебираем массив с помощью some, возвращаем true или false)
-const validateHashtagsContent = () => {
-  if (hashtagsInput.value) {
-    return hashtagsInput.value.split(' ').every((hashtag) => hashtagRule.test(hashtag));
-  } else {
-    return true;
-  }
-};
+const validateHashtagsContent = () =>
+  (hashtagsInput.value)
+    ? hashtagsInput.value.split(' ').every((hashtag) => hashtagRule.test(hashtag))
+    : true;
 
 // проверка хэштегов на уникальность (при этом для начала приводим всё к нижнему регистру)
 const validateHashtagsDublicates = () => {
@@ -101,7 +99,7 @@ const validateHashtagsDublicates = () => {
 // добавляем новые правила в пристин
 pristine.addValidator(commentInput, validateComment, `Длина комментария должна быть меньше ${MAX_COMMENT_LENGTH} символов`);
 pristine.addValidator(hashtagsInput, validateHashtagsAmount, `Нельзя указывать более ${MAX_AMOUNT_OF_HASHTAGS} хэштегов`);
-pristine.addValidator(hashtagsInput, validateHashtagsContent, 'Хэштег должен начинаться с # и содержать только цифры и буквы');
+pristine.addValidator(hashtagsInput, validateHashtagsContent, `Хэштег должен начинаться с #, содержать только цифры и буквы и быть короче ${MAX_HASHTAG_LENGTH} символов`);
 pristine.addValidator(hashtagsInput, validateHashtagsDublicates, 'Все хэштеги должны быть уникальны!');
 
 const hideImageForm = () => {

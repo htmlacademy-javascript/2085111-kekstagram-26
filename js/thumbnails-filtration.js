@@ -2,14 +2,14 @@ import {AMOUNT_OF_PHOTOS} from './constants.js';
 import {createThumbnails} from './thumbnails-rendering.js';
 import {shuffle, debounce} from './utils.js';
 
+const AMOUNT_OF_RANDOM_PHOTOS = 10;
+const TIME_OF_DEBOUNCE = 500;
+
 const defaultFilter = document.querySelector('#filter-default');
 const randomFilter = document.querySelector('#filter-random');
 const discussedFilter = document.querySelector('#filter-discussed');
 const filterBlock = document.querySelector('.img-filters');
 const filters = document.querySelectorAll('.img-filters__button');
-
-const AMOUNT_OF_RANDOM_PHOTOS = 10;
-const TIME_OF_DEBOUNCE = 500;
 
 const changeActiveFilter = (filter) => {
   for (const eachFilter of filters) {

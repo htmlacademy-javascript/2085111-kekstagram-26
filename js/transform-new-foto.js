@@ -1,13 +1,5 @@
 import {DEFAULT_SCALE_VALUE, sliderOptions} from './constants.js';
 
-const buttonToMakeSmall = document.querySelector('.scale__control--smaller');
-const buttonToMakeBig = document.querySelector('.scale__control--bigger');
-const transformValueTextblock = document.querySelector('.scale__control--value');
-const tranformingImage = document.querySelector('.img-upload__preview > img');
-const listOfEffectsInputs = document.querySelector('.effects__list');
-const sliderElement = document.querySelector('.effect-level__slider');
-const effectLevelValue = document.querySelector('.effect-level__value');
-
 const DECREASE = 'decrease';
 const INCREASE = 'increase';
 const STEP_OF_SCALING = 25;
@@ -23,6 +15,14 @@ const defaultSliderOptions = {
   step: 1,
   connect: 'lower',
 };
+
+const buttonToMakeSmall = document.querySelector('.scale__control--smaller');
+const buttonToMakeBig = document.querySelector('.scale__control--bigger');
+const transformValueTextblock = document.querySelector('.scale__control--value');
+const tranformingImage = document.querySelector('.img-upload__preview > img');
+const listOfEffectsInputs = document.querySelector('.effects__list');
+const sliderElement = document.querySelector('.effect-level__slider');
+const effectLevelValue = document.querySelector('.effect-level__value');
 
 noUiSlider.create(sliderElement, defaultSliderOptions);
 sliderElement.setAttribute('disabled', true);
